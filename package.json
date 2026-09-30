@@ -1,0 +1,24 @@
+{
+  "name": "ai-audio-assistant",
+  "version": "0.2.0",
+  "description": "App desktop (Electron) que escuta o áudio do computador para traduzir ao vivo, transcrever e responder perguntas — com OpenAI ou 100% local na GPU (whisper.cpp + llama.cpp).",
+  "license": "MIT",
+  "private": true,
+  "main": "dist/main/index.js",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node scripts/build.mjs && electron .",
+    "typecheck": "tsc -p . --noEmit && tsc -p src/renderer --noEmit",
+    "test": "node scripts/build.mjs && node --test \"dist/**/*.test.js\""
+  },
+  "dependencies": {
+    "openai": "^7.25.0",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/ws": "^8.18.2",
+    "electron": "^44.5.0",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,13 @@
+node_modules/
+dist/
+data/
+.env
+
+# modelos baixados (GBs)
+docker/whisper/models/*
+!docker/whisper/models/.gitkeep
+docker/llm/models/*
+!docker/llm/models/.gitkeep
+
+# arquivos exportados pelo botão Salvar na raiz
+/*.txt

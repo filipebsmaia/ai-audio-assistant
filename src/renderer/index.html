@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' blob:; style-src 'self'">
+  <title>AI Audio Assistant</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside>
+    <div class="brand">🎧 AI Audio Assistant</div>
+    <button class="nav" data-view="translate">🌐 Traduzir</button>
+    <button class="nav" data-view="transcribe">📝 Transcrever</button>
+    <button class="nav" data-view="ask">💬 Perguntar</button>
+    <div class="label">Sessões</div>
+    <button class="item" id="newSession">＋ Nova sessão</button>
+    <div id="sessionList"></div>
+  </aside>
+
+  <main>
+    <header>
+      <h1 id="viewTitle">Traduzir</h1>
+      <input id="sessionName" placeholder="Nome da sessão" title="Clique para renomear (Enter salva)">
+      <select id="source" title="O que ouvir: o áudio do sistema (saída padrão do Windows) ou uma entrada (microfone, Stereo Mix, cabo virtual)"></select>
+      <span id="statePill" class="pill">IDLE</span>
+    </header>
+    <div id="banner" hidden><span id="bannerText"></span><button id="bannerClose" title="Fechar">✕</button></div>
+
+    <section id="view-translate">
+      <div class="thread" id="tThread">
+        <div class="empty" id="tEmpty"><b>Tradução ao vivo</b>Toque qualquer áudio no computador e clique em Iniciar.<br>O idioma de origem é detectado automaticamente.</div>
+      </div>
+      <footer><div class="bar">
+        <span class="muted">Auto →</span>
+        <select id="target" title="Idioma de destino">
+          <option value="pt" selected>Português</option><option value="en">English</option><option value="es">Español</option>
+          <option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="ja">日本語</option>
+        </select>
+        <span class="grow"></span>
+        <button class="btn" id="tSave">💾 Salvar</button>
+        <button class="btn primary" id="tStart">● Iniciar</button>
+        <button class="btn stop" id="tStop" hidden>■ Parar</button>
+      </div></footer>
+    </section>
+
+    <section id="view-transcribe" hidden>
+      <div class="thread" id="sThread">
+        <div class="empty" id="sEmpty"><b>Transcrever</b>Clique em Iniciar para transcrever o áudio do computador.<br>Tudo é salvo automaticamente na sessão.</div>
+        <div id="sList"></div>
+        <div class="msg live" id="live" hidden></div>
+      </div>
+      <footer><div class="bar">
+        <span class="muted" id="sCount">0 segmentos</span>
+        <span class="grow"></span>
+        <button class="btn" id="sSave">💾 Salvar</button>
+        <button class="btn primary listen-start">● Iniciar</button>
+        <button class="btn stop listen-stop" hidden>■ Parar</button>
+      </div></footer>
+    </section>
+
+    <section id="view-ask" hidden>
+      <div class="info" id="aInfo"></div>
+      <div class="thread" id="aThread">
+        <div class="empty" id="aEmpty"><b>Pergunte sobre a sessão</b>As respostas usam somente a transcrição, com o tempo aproximado [HH:MM:SS].</div>
+      </div>
+      <footer><div class="bar">
+        <button class="btn listen-start" title="Começar a transcrever nesta sessão">🎙 Ouvir</button>
+        <button class="btn stop listen-stop" hidden>■ Parar</button>
+        <textarea id="question" rows="1" placeholder="Pergunte algo sobre esta sessão…"></textarea>
+        <button class="btn" id="aSave" title="Salvar perguntas e respostas">💾</button>
+        <button class="btn primary" id="askBtn" title="Enviar (Enter)">↑</button>
+      </div></footer>
+    </section>
+    <div id="toast" hidden></div>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

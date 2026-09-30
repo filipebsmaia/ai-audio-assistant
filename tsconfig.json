@@ -1,0 +1,10 @@
+{
+  // Processo main + preload (CommonJS/Node). O renderer tem o próprio tsconfig em src/renderer.
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": ["ES2022"],
+    "types": ["node"]
+  },
+  "include": ["src/main", "src/preload", "src/shared"]
+}

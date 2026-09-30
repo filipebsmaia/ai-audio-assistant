@@ -1,0 +1,8 @@
+minimumReleaseAgeExclude:
+  - '@types/ws@8.18.2'
+  - electron@44.5.0
+  - openai@7.25.0
+
+# electron precisa do postinstall para baixar o binário
+allowBuilds:
+  electron: true

@@ -1,0 +1,29 @@
+# Serviços locais opcionais (GPU NVIDIA). Suba só o que for usar:
+#   docker compose up -d whisper       → TRANSCRIPTION_PROVIDER=local
+#   docker compose up -d whisper llm   → TRANSLATION_PROVIDER=local
+
+services:
+  whisper:
+    image: ghcr.io/ggml-org/whisper.cpp:main-cuda
+    gpus: all
+    ports:
+      - "127.0.0.1:8080:8080" # só localhost do host
+    volumes:
+      - ./docker/whisper/models:/models
+    restart: unless-stopped
+    # LOCAL_WHISPER_MODEL vem do .env (ex.: large-v3-turbo, medium); -l auto detecta o idioma
+    # lista de 1 item: a imagem usa ENTRYPOINT bash -c, que precisa receber o comando numa string só
+    command: ["whisper-server --host 0.0.0.0 --port 8080 -l auto -m /models/ggml-${LOCAL_WHISPER_MODEL:-large-v3-turbo}.bin"]
+
+  llm:
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda
+    gpus: all
+    ports:
+      - "127.0.0.1:8081:8080" # host 8081 -> 8080 no container (porta que o healthcheck da imagem testa)
+    volumes:
+      - ./docker/llm/models:/models
+    environment:
+      LLAMA_CACHE: /models # -hf baixa o modelo aqui uma única vez
+    restart: unless-stopped
+    # LOCAL_LLM_MODEL vem do .env (repo:quant da Hugging Face); --no-mmproj pula a parte de visão
+    command: ["--host", "0.0.0.0", "--port", "8080", "-hf", "${LOCAL_LLM_MODEL:-ggml-org/gemma-3-4b-it-GGUF:Q4_K_M}", "--no-mmproj", "-ngl", "99", "-c", "4096"]
